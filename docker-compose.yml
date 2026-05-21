@@ -1,0 +1,97 @@
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./db/:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+
+  adminer:
+    image: adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+  authors_liquibase:
+    image: liquibase:latest
+    volumes:
+      - ./liquibase/authors_changelog/:/liquibase/changelog
+    command: --url="jdbc:mysql://db:3306/db_authors" --changeLogFile=changelog.xml update
+    environment:
+      INSTALL_MYSQL: true
+      LIQUIBASE_COMMAND_USERNAME: root
+      LIQUIBASE_COMMAND_PASSWORD: root
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
+  books_liquibase:
+    image: liquibase:latest
+    volumes:
+      - ./liquibase/books_changelog/:/liquibase/changelog
+    command: --url="jdbc:mysql://db:3306/db_books" --changeLogFile=changelog.xml update
+    environment:
+      INSTALL_MYSQL: true
+      LIQUIBASE_COMMAND_USERNAME: root
+      LIQUIBASE_COMMAND_PASSWORD: root
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+      authors_liquibase:
+        condition: service_completed_successfully
+
+
+  lab-eureka:
+    image: lab-eureka:latest
+    ports:
+      - "8761:8761"
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
+  lab-gateway:
+    image: lab-gateway:latest
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://lab-eureka:8761/eureka
+    ports:
+      - "8083:8083"
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
+  lab-author:
+    image: lab-author:latest
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://lab-eureka:8761/eureka
+    ports:
+      - "8081:8081"
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+
+  lab-book:
+    image: lab-book:latest
+    environment:
+      EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://lab-eureka:8761/eureka
+    ports:
+      - "8082:8082"
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true

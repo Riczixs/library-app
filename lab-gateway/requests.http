@@ -1,0 +1,38 @@
+###Get all Authors
+GET http://localhost:8083/api/authors
+###Get Author by ID
+GET http://localhost:8083/api/authors/18d5386e-f81e-4ed1-9aa6-4bd554f0bd33
+###Create Author
+PUT http://localhost:8083/api/authors/18d5386e-f81e-4ed1-9aa6-4bd554f0bd33
+Content-Type: application/json
+Authorization: Basic =
+
+{
+    "firstName":  "Cristiano",
+    "lastName": "Ronaldo",
+    "age": 45
+}
+###Delete Author
+DELETE http://localhost:8083/api/authors/18d5386e-f81e-4ed1-9aa6-4bd554f0bd33
+###Get all Books
+GET http://localhost:8083/api/books
+###Get Book by ID
+GET http://localhost:8083/api/books/cdb27865-60c1-385d-aede-b063125d7445
+###Get Author books
+GET http://localhost:8083/api/books/authors/18d5386e-f81e-4ed1-9aa6-4bd554f0bd33
+###Create Book
+PUT http://localhost:8083/api/books/authors/9b4e7233-c0b1-31ae-8107-70e68ccebaaa
+Content-Type: application/json
+Authorization: Basic =
+
+{
+  "title": "Przysłowia",
+  "edition": 32,
+  "author": {
+    "id": "18d5386e-f81e-4ed1-9aa6-4bd554f0bd33"
+  }
+}
+###Delete Book
+DELETE http://localhost:8083/api/books/9b4e7233-c0b1-31ae-8107-70e68ccebaaa
+###Delete Author books
+DELETE http://localhost:8082/api/books/18d5386e-f81e-4ed1-9aa6-4bd554f0bd33/author

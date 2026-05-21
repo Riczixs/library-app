@@ -1,0 +1,9 @@
+FROM eclipse-temurin:21.0.8_9-jre
+
+ENV EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+ENV SPRING_CLOUD_GATEWAY_SERVER_WEBFLUX_DISCOVERY_LOCATOR_ENABLED=true
+
+EXPOSE 8083
+
+COPY target/lab-gateway-0.0.1-SNAPSHOT.jar app.jar
+CMD ["java", "-jar", "app.jar"]

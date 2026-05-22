@@ -1,0 +1,17 @@
+IMAGE                                        ID             DISK USAGE   CONTENT SIZE   EXTRA
+adminer:latest                               cc64d253db4f        170MB         46.7MB   U    
+configservice:latest                         de43d8269c60        369MB          103MB   U    
+dataservice:latest                           30a52daf8b38        369MB          103MB   U    
+eureka:latest                                edf6839bc43e        531MB          163MB   U    
+frontendui:latest                            979edc779813        357MB          101MB   U    
+gateway:latest                               45d07fbfc7ac        342MB         96.4MB   U    
+lab-author:latest                            e06032103131        569MB          181MB   U    
+lab-book2:latest                             b8613990439d        569MB          181MB   U    
+lab-gateway:latest                           64f0f56c5c24        509MB          153MB        
+liquibase:latest                             af27034b7662        440MB          115MB   U    
+mcr.microsoft.com/dotnet/aspnet:10.0         9b5222b0ff8e        340MB         95.9MB        
+mcr.microsoft.com/mssql/server:2025-latest   a93989eebfb5       2.51GB          657MB   U    
+mysql:latest                                 c11782aa2a96        1.3GB          290MB   U    
+prom/prometheus:v3                           5550dc63da36        578MB          153MB   U    
+rabbitmq:4-management                        8f3ab1dc6fb3        391MB          121MB   U    
+trackingservice:latest                       96ba52d3d470        381MB          106MB   U    

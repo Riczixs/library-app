@@ -1,22 +1,18 @@
 #!/bin/bash
+echo "F start"
+services=("lab-author" "eureka" "lab-book2" "lab-gateway")
+for serv in "${services[@]}"; do
+    cd $serv
+    ./mvnw package -DskipTests
+    chmod 777 target
+    docker build -t $serv .
+    cd ..
+done
 
-makejars(){
-    echo "F start"
-    services=("lab-author" "eureka" "lab-book2" "lab-gateway")
-    for serv in "${services[@]}"; do
-        cd $serv
-            ./mvnw package -DskipTests
-            chmod 777 target
-        cd ..
-    done;
-    if [[-e ${PWD}/lab-book2/*.jar] && [-e ${PWD}/lab-author/*.jar] && [-e ${PWD}/lab-gateway/*.jar] && [-e ${PWD}/eureka/*.jar]];
-    then
-        echo "Services built successfully!"
-    fi
-}
-$(makejars)
-
-
-
-
-#echo "${0%/*}"
+docker images > images.txt
+if grep -o "lab-author:latest" images.txt && grep -o "lab-gateway:latest" images.txt && grep -o "eureka:latest" images.txt && grep -o "lab-book2:latest" images.txt
+then
+    docker compose up
+else
+    echo "Build failed"
+fi

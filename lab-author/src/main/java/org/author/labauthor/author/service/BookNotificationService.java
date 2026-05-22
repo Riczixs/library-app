@@ -19,7 +19,7 @@ public class BookNotificationService {
     @EventListener
     public void onAuthorDeleted(AuthorDeletedEvent event) {
         try{
-            restTemplate.delete( "http://lab-book:8082/api/books/{authorId}/author", event.getAuthorId());
+            restTemplate.delete( "http://lab-book2:8082/api/books/{authorId}/author", event.getAuthorId());
         } catch (HttpClientErrorException e) {
             throw new NotFoundException(e);
         }

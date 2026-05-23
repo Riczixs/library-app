@@ -55,7 +55,7 @@ services:
 
 
   lab-eureka:
-    image: lab-eureka:latest
+    image: eureka:latest
     ports:
       - "8761:8761"
     depends_on:
@@ -77,21 +77,33 @@ services:
   lab-author:
     image: lab-author:latest
     environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_authors
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_PROPERTIES_PREFERRED_UUID_JDBC_TYPE: BINARY
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://lab-eureka:8761/eureka
-    ports:
-      - "8081:8081"
     depends_on:
       db:
         condition: service_healthy
         restart: true
+    deploy:
+      mode: replicated
+      replicas: 3
 
   lab-book:
-    image: lab-book:latest
+    image: lab-book2:latest
     environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_books
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_PROPERTIES_PREFERRED_UUID_JDBC_TYPE: BINARY
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: true
       EUREKA_CLIENT_SERVICE_URL_DEFAULTZONE: http://lab-eureka:8761/eureka
-    ports:
-      - "8082:8082"
     depends_on:
       db:
         condition: service_healthy
         restart: true
+    deploy:
+      mode: replicated
+      replicas: 3

@@ -1,10 +1,17 @@
-FROM eclipse-temurin:21.0.8_9-jre
+FROM eclipse-temurin:25-alpine as builder
+WORKDIR app
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
+RUN java -Djarmode=layertools -jar app.jar extract
+
+FROM eclipse-temurin:25-alpine
+WORKDIR app
+
+COPY --from=builder app/dependencies ./
+COPY --from=builder app/spring-boot-loader ./
+COPY --from=builder app/snapshot-dependencies ./
+COPY --from=builder app/application ./
+
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
 
 EXPOSE 8082
-
-ENV SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/db_books
-ENV SPRING_DATASOURCE_USERNAME=root
-ENV SPRING_DATASOURCE_PASSWORD=root
-
-COPY target/lab-book2-0.0.1-SNAPSHOT.jar app.jar
-CMD ["java", "-jar", "app.jar"]

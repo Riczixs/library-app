@@ -1,6 +1,6 @@
 # library-app
 
-A microservice web application built with **Java 21** and **Spring Boot 3.5.6**. 
+A microservice web application built with **Java 21**, **Spring Boot 3.5.6** and **Apache Maven**. 
 
 ## Features
 * **CRUD Operations:** Full management of authors and books.

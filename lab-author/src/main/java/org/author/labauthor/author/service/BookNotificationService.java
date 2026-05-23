@@ -2,8 +2,6 @@ package org.author.labauthor.author.service;
 
 import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -19,7 +17,7 @@ public class BookNotificationService {
     @EventListener
     public void onAuthorDeleted(AuthorDeletedEvent event) {
         try{
-            restTemplate.delete( "http://lab-book2:8082/api/books/{authorId}/author", event.getAuthorId());
+            restTemplate.delete( "http://lab-book:8082/api/books/{authorId}/author", event.getAuthorId());
         } catch (HttpClientErrorException e) {
             throw new NotFoundException(e);
         }

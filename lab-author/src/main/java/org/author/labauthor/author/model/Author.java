@@ -21,11 +21,11 @@ public class Author{
     private UUID id;
 
     @Setter
-    @Column(name="first_name",length = 50, nullable = false)
+    @Column(name="first_name",length = 100, nullable = false)
     private String firstName;
 
     @Setter
-    @Column(name="last_name", length = 50, nullable = false)
+    @Column(name="last_name", length = 100, nullable = false)
     private String lastName;
 
     @Setter
